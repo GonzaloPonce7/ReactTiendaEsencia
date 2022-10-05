@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { Link } from "react-router-dom";
 import CartWidget from "./CartWidget";
 
 const NavBar = ()=> {
@@ -19,12 +20,12 @@ return(
                 <li><a>Item 4</a></li>
             </ul>
         </div>
-        <a className="btn btn-ghost normal-case text-xl">Esencia</a>
+        <Link to='/' className="btn btn-ghost normal-case text-xl">Esencia</Link>
     </div>
     <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">
-            <li><a>Item 1</a></li>
-            <li><a>Item 2</a></li>
+            <li><Link to='/shop'>Item List</Link></li>
+            <li><Link>Item 2</Link></li>
             <li><a>Item 3</a></li>
             <li><a>Item 4</a></li>
         </ul>
