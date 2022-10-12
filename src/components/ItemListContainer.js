@@ -1,7 +1,8 @@
 import { findByLabelText } from "@testing-library/react"
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { products } from "./Catalogo/Data/Products";
 import Cards from "./Catalogo/Cards"
+import { DarkModeContext } from "../context/DarkModeContext";
 
 
 const styles = {
@@ -14,12 +15,15 @@ const styles = {
 
 const ItemListContainer = ( {greeting} ) => {
 
+    const DarkMode = useContext (DarkModeContext)
+
     const [items, setItems] = useState([])
 
     useEffect(() => {
-        getCatalog().then( response =>
+        getCatalog().then( response => {
+            console.log( response )
             setItems(response)
-        )
+        })
     }, [])
     
     const getCatalog = ()=> {
@@ -37,6 +41,7 @@ const ItemListContainer = ( {greeting} ) => {
                 <h2>{greeting}</h2>
             </div>
             {items.map( i => <Cards key={i.id} {...i} /> )}
+            <div>Darkmode: {DarkMode ? 'Activado' : 'Desactivado'}</div>
         </>
     )
 }
