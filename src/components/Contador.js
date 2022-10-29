@@ -8,9 +8,13 @@ function Contador() {
         setCounter( counter + 1)
     };
 
+
     const decrease = ()=> {
+      if (counter > 0) {
         setCounter ( counter - 1 )
+      }
     };
+
 
   return (
 

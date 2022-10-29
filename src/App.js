@@ -1,35 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
 import NavBar from './components/NavBar';
-import ItemListContainer from './components/ItemListContainer';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ItemDetailContainer from './components/ItemDetailContainer';
 import { DarkModeContext } from './context/DarkModeContext';
-import { useState } from 'react';
-
+import Order from './components/Order';
+import ItemListContainerF from './components/ItemListContainerF';
+import { CartContextProvider } from './context/CartContext';
+import Cart from './components/Cart';
 
 function App() {
 
-  const [DarkMode, setDarkMode] = useState ( true );
-
-  const darkModeHandler = () =>{
-    setDarkMode(!DarkMode)
-  }
 
   return (
-    <DarkModeContext.Provider value={DarkMode}>
+    <CartContextProvider>
+    {/* <DarkModeContext> */}
       <BrowserRouter>
         <NavBar/>
-        <button className='btn' onClick={darkModeHandler}>DarkMode</button>
         <Routes>
-          <Route path={'/'} element={<ItemListContainer/>} />
-          <Route path={'/shop/'} element={<ItemListContainer/>} />
+          <Route path={'/'} element={<ItemListContainerF/>} />
+          <Route path={'/shop/'} element={<ItemListContainerF/>} />
           <Route path={'/detail/item/:id'} element={<ItemDetailContainer/>} />
           <Route path={'/'} element={<condicionalContainer/>} />
+          <Route path={'/cart'} element={<Cart/>} />
+          {/* <Route path={'/Order'} element={<Order/>}></Route> */}
         </Routes>
       </BrowserRouter>
-      {/* <ItemListContainer greeting={"Bienvenido a la tienda de birra, camarada"}/> */}
-    </DarkModeContext.Provider>
+    {/* </DarkModeContext> */}
+    </CartContextProvider>
   );
 
 }

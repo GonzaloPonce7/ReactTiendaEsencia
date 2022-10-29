@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { products } from "./Catalogo/Data/Products";
+import {getFirestore, doc, getDoc, collection} from "firebase/firestore"
+
 
 const ItemDetailContainer = () => {
 
@@ -8,27 +9,30 @@ const ItemDetailContainer = () => {
     const [item, setItem] = useState({});
 
     useEffect(() => {
-        getItemDetails().then( response => {
-            setItem (response)
-        } )
+        getItem()
     }, [])
     
-    const getItemDetails = () => {
-        return new Promise((resolve) => {
-            setTimeout(()=>{
-                resolve(products.find( p => p.id === Number(itemId)))
-            }, 1000)
+    const getItem = () => { 
+        const db = getFirestore()
+        const itemCollection = collection (db, 'items')
+        const itemRef = doc(itemCollection, itemId )
+        getDoc(itemRef).then(snapshot => {
+            if (snapshot.exists()) {
+                setItem(snapshot.data())
+            }
         })
     }
+
 
     return (
         <div>
             <div>
                 <img src={item.img} alt=""></img>
             </div>
-            <div>{item.nombre}</div>
-            <div>{item.estilo}</div>
-            <div>{item.precio}</div>
+            <div>{item.name}</div>
+            <div>{item.style}</div>
+            <div>{item.price}</div>
+            <div>{item.description}</div>
         </div>
     )
 }

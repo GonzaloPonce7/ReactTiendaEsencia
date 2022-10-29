@@ -27,4 +27,4 @@ const FavProvider = ({children}) => {
     )
 }
 
-export {FavContext, FavProvider}
+export {FavContext, FavProvider, useFavs}

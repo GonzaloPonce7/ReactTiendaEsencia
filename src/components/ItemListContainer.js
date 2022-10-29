@@ -41,7 +41,7 @@ const ItemListContainer = ( {greeting} ) => {
                 <h2>{greeting}</h2>
             </div>
             {items.map( i => <Cards key={i.id} {...i} /> )}
-            <div>Darkmode: {DarkMode ? 'Activado' : 'Desactivado'}</div>
+            <div>Darkmode: {DarkMode ? 'On' : 'Off'}</div>
         </>
     )
 }

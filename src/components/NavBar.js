@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Link } from "react-router-dom";
-import CartWidget from "./CartWidget";
+import { DarkModeContext } from "../context/DarkModeContext";
+import CartWidget from "../components/CartWidget"
+
 
 const NavBar = ()=> {
 
@@ -25,12 +27,12 @@ return(
     <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">
             <li><Link to='/shop'>Item List</Link></li>
-            <li><Link>Item 2</Link></li>
+            <li><Link to='/cart'>Cart</Link></li>
             <li><a>Item 3</a></li>
             <li><a>Item 4</a></li>
         </ul>
     </div>
-
+    <button className='btn' onClick={DarkModeContext}>DarkMode</button>
     <CartWidget/>
 
 </div>
