@@ -25,8 +25,8 @@ const Cards = ({id, style, name, price, img}) => {
           <Link to={`/detail/item/${id}`}>
             <button className="btn">Detalles</button>
           </Link>
-            <button className='btn' onClick={addHandler}>Agregar al carrito</button>
-        </div>
+          <button className='btn' onClick={addHandler}>Agregar al carrito</button>
+    </div>
   )
 }
 
