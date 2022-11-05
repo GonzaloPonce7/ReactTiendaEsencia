@@ -5,14 +5,18 @@ import { useCart } from '../context/CartContext'
 
 const Cards = ({id, style, name, price, img}) => {
 
+  let quantityInCart=0;
 
-  const {addToCart} = useCart()
+  const {addToCart, getItemQuantity} = useCart()
 
   const addHandler = () => {
     let item = {id, style, name, price, img};
     addToCart(item)
-}
+  };
 
+  const updateCounter = () => {
+    return quantityInCart = getItemQuantity(id)
+  };
 
   return (
     <div>
@@ -26,6 +30,9 @@ const Cards = ({id, style, name, price, img}) => {
             <button className="btn">Detalles</button>
           </Link>
           <button className='btn' onClick={addHandler}>Agregar al carrito</button>
+          <div>
+            {updateCounter() > 0 ? <span className="font-bold text-lg">Hay {quantityInCart} en el carrito </span> : <span></span> }
+          </div>
     </div>
   )
 }

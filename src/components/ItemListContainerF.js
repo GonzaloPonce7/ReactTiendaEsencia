@@ -31,7 +31,6 @@ const ItemListContainerF = () => {
             <div>
                 {items.map( i => <Cards key={i.id} {...i} /> )}
             </div>
-            
         </>
     )
 }

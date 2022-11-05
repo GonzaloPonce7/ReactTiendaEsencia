@@ -3,90 +3,92 @@ import LocalStorage from "../components/LocalStorage"
 
 
 const CartContext = createContext({
-    orderList: [],
+    cartList: [],
     addToCart: () => {},
     clearCart: () => {},
     deleteItem: () => {},
     increaseItem: () => {},
     decreaseItem: () => {},
+    getItemQuantity: () => {},
     count: 0,
-    total: 0
+    getTotal: 0
 })
 
 const useCart = () => {
     return useContext(CartContext)
-}
+};
 
 const CartContextProvider = ({children}) => {
 
-    const [orderList, setOrderList] = LocalStorage('items', [])
+    const [cartList, setCartList] = LocalStorage('items', [])
 
     const addToCart = ( item ) => {
 
-        let auxList = [...orderList];
+        let auxList = [...cartList];
 
-        let orderItem = auxList.find(e => e.item.id === item.id);
-        if (orderItem !== undefined) {
-            orderItem.quantity ++;
-            orderItem.subtotal += item.price
-            setOrderList(auxList);
+        let cartItem = auxList.find(e => e.item.id === item.id);
+        if (cartItem !== undefined) {
+            cartItem.quantity ++;
+            cartItem.subtotal += item.price;
+            setCartList(auxList);
         } else{
-            setOrderList( orderList => [...orderList, {item:item, quantity:1, subtotal:item.price}] )
+            setCartList( cartList => [...cartList, {item:item, quantity:1, subtotal:item.price}] )
         }
-        
     };
 
-    // const deleteItem = (item) => {
-    //     let auxList = [...orderList];
-    //     let itemIdx = auxList.findIndex( (e)=> e.item === item );
-    //     if (itemIdx > -1) {
-    //         auxList.splice(itemIdx, 1);
-    //         setOrderList(auxList)
-    //     }
-    // };
-
     const deleteItem = (item) => {
-        console.log("asdasd");
-        let auxList = [...orderList];
+        let auxList = [...cartList];
         let itemIdx = auxList.findIndex( (e)=> e.item === item );
         if (itemIdx > -1) {
             auxList.splice(itemIdx, 1);
-            //console.log(auxList);
-            setOrderList(auxList)
+            setCartList(auxList)
         }
     };
 
     const increaseItem = (item) => {
-        if(item.quantity)
-            item.quantity ++
+        let auxList = [...cartList];
+        let itemFinded = auxList.find( (e)=> e.item === item );
+        if(itemFinded && itemFinded.quantity)
+            itemFinded.quantity ++;
+            itemFinded.subtotal += item.price;
+            setCartList(auxList)
     };
 
     const decreaseItem = (item) => {
-        if (item.quantity && item.quantity > 0)
-        item.quantity --
+        let auxList = [...cartList];
+        let itemFinded = auxList.find( (e)=> e.item === item );
+        if (itemFinded &&  itemFinded.quantity > 0)
+        itemFinded.quantity --;
+        itemFinded.subtotal -= item.price;
+        setCartList(auxList)
     };
+
+    const getItemQuantity = (id) => {
+        const cartItem = cartList.find( (e)=> e.item.id === id )
+        return cartItem? cartItem.quantity : 0;
+    }
 
     const clearCart = () => {
-        setOrderList([])
+        setCartList([])
     };
 
-    const total = () => {
+    const getTotal = () => {
         let sum = 0;
-        orderList.forEach((e) => (sum += e.subtotal));
+        cartList.forEach((e) => (sum += e.subtotal));
         return sum;
     };
     
     const context = {
-        orderList: orderList,
+        cartList: cartList,
         addToCart: addToCart,
         clearCart: clearCart,
         deleteItem: deleteItem,
         increaseItem: increaseItem,
         decreaseItem: decreaseItem,
-        count: orderList.length,
-        total: total()
-        //(orderList.map(e => e.subtotal)).reduce((pv,cv) => pv+cv)
-        };
+        getItemQuantity: getItemQuantity,
+        count: cartList.length,
+        getTotal: getTotal()
+    };
     
     return (
         <CartContext.Provider value={context}>

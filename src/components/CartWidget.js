@@ -1,10 +1,9 @@
 import { useCart } from '../context/CartContext'
 import { Link } from "react-router-dom"
 
-const CartWidget = () => {
+const CartWidget = (name, quantity) => {
 
-    const {count, total} = useCart()
-
+    const {count, getTotal, cartList} = useCart()
 
     return (
     <div className="flex-none">
@@ -15,20 +14,22 @@ const CartWidget = () => {
                 <span className="badge badge-sm indicator-item">{count}</span>
             </div>
         </label>
-        <div tabIndex={0} className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow">
+        <div tabIndex={0} className="mt-3 card card-compact dropdown-content w-60 bg-base-100 shadow">
             <div className="card-body">
-                <span className="font-bold text-lg">{count} Items</span>
-                <span className="text-info">Total: ${total}</span>
+                <div>
+                    { cartList.map ((e, i) => (<li key={i} className="font-bold text-lg">{e.item.name} x {e.quantity}</li>)) }
+                </div>
+                <span className="text-info">Total: ${getTotal}</span>
                 <div className="card-actions">
                     <Link to='/cart' >
-                        <button className="btn btn-primary btn-block">View cart</button>
+                        <button className="btn btn-primary btn-block">Ver carrito</button>
                     </Link>
                 </div>
             </div>
         </div>
         </div>
     </div>
-
     )
-}
+};
+
 export default CartWidget

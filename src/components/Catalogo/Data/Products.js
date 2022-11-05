@@ -33,4 +33,9 @@ const products = [
     }
 ];
 
+
+const url = product.img
+
+const url2 = product["img"]
+
 export {products}

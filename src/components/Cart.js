@@ -1,9 +1,22 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext'
 
 const Cart = () => {
 
-  const {orderList, clearCart, total, increaseItem, decreaseItem, deleteItem} = useCart()
+  const { cartList, clearCart, total, increaseItem, decreaseItem, deleteItem} = useCart()
+
+  const deleteItemHandler = (event,item) => {
+    deleteItem(item)
+  };
+
+  const increaseItemHandler = (event,item) => {
+    increaseItem(item)
+  };
+
+  const decreaseItemHandler = (event,item) => {
+    decreaseItem(item)
+  }
 
 
   return (
@@ -21,7 +34,7 @@ const Cart = () => {
           </tr>
         </thead>
         <tbody>
-          { orderList.map ( (e, i) =>
+          { cartList.map ( (e, i) =>
           <tr key={i}>
             <td className='tableCartBody'>
               <img src={e.item.img} alt='' width='70px'></img>
@@ -30,25 +43,24 @@ const Cart = () => {
             <td className='tableCartBody'>${e.item.price}</td>
             <td className='tableCartBody'>
               <span>
-                <button className='btn' onClick={decreaseItem}>-</button>
+                <button className='btn' onClick={(event)=> decreaseItemHandler (event,e.item)}>-</button>
                 <>{e.quantity}</>
-                <button className='btn' onClick={increaseItem}>+</button>
+                <button className='btn' onClick={(event)=> increaseItemHandler (event,e.item)}>+</button>
               </span>
             </td>
             <td className='tableCartBody'>{e.subtotal}</td>
             <td className='tableCartBody'>
-              {/* <button className='btn' onClick={deleteItem()} >X</button> */}
+            <button className='btn' onClick={(event)=> deleteItemHandler(event,e.item) } >X</button>
             </td>
           </tr>
-          //<div key={i}>{e.item.name} | precio ind: ${e.item.price} x cantidad: {e.quantity} = {e.subtotal}  </div> 
           )}
         </tbody>
       </table>
     <div>Total: {total}</div>
     <button className='btn' onClick={clearCart}>Limpiar carrito</button>
-    <button className='btn'>Compar</button>
+    {cartList.length === 0? <button disabled className='btn'>Compar</button> : <Link to='/checkout'><button  className='btn'>Compar</button></Link>}
   </div>
   )
-}
+};
 
 export default Cart

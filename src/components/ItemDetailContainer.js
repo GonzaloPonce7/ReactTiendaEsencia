@@ -21,8 +21,7 @@ const ItemDetailContainer = () => {
                 setItem(snapshot.data())
             }
         })
-    }
-
+    };
 
     return (
         <div>
@@ -35,5 +34,5 @@ const ItemDetailContainer = () => {
             <div>{item.description}</div>
         </div>
     )
-}
+};
 export default ItemDetailContainer
